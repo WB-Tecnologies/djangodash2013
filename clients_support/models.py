@@ -89,7 +89,6 @@ class Ticket(models.Model):
     updated_time = models.DateTimeField(_('Last updated time'), auto_now=True)
     closed_time = models.DateTimeField(_('Closed time'), blank=True, null=True)
 
-
     def __unicode__(self):
         return u'#%d. %s' % (self.pk, self.subject)
 

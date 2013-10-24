@@ -158,11 +158,15 @@ $(function(){
     });
 
     $('#addticket-form').submit(function() {
-        var type = $('#addticket-topic').val(),
-            title = $('#addticket-title').val(),
-            description = $('#addticket-description').val(),
-            $form=$(this);
+        var $form = $(this),
+            guest_name = $form.find('#addticket-guest_name').val(),
+            guest_email = $form.find('#addticket-guest_email').val(),
+            type = $form.find('#addticket-topic').val(),
+            title = $form.find('#addticket-title').val(),
+            description = $form.find('#addticket-description').val();
         var data = {
+            'guest_name': guest_name,
+            'guest_email': guest_email,
             'type': type,
             'subject': title,
             'text': description

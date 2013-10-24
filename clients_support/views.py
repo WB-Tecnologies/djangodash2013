@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.http.response import Http404
+from clients_support.conf import settings
 
 from clients_support.models import Ticket, Message, StatusLog, TicketType, Tag
 from rest_framework.authentication import SessionAuthentication
@@ -31,29 +33,50 @@ class TicketPermissions(permissions.BasePermission):
 
 
 class TicketViewSet(viewsets.ModelViewSet):
+
     model = Ticket
     permission_classes = (TicketPermissions, )
-    authentication_classes = (UnsafeSessionAuthentication,)
+    authentication_classes = (UnsafeSessionAuthentication, )
     model_serializer_class = TicketSerializer
 
     @property
     def queryset(self):
-        queryset = Ticket.objects.filter(Q(publish=True) | Q(user=self.request.user))
+        qs = Ticket.objects.filter(publish=True)
+
+        user = self.request.user
+        is_guest = user.is_anonymous()
+        allow_guest = settings.ALLOW_GUEST_SUPPORT
+
+        if is_guest:
+            user = None
+            if not allow_guest:
+                return qs.none()
+
         publish = self.request.QUERY_PARAMS.get('publish', None)
         current_user = self.request.QUERY_PARAMS.get('current_user', None)
-        if publish == 'true':
-            queryset = queryset.filter(publish=True)
+
+        if not allow_guest:
+            qs.filter(user__exists=True)
+        #if publish == 'true':
+        #    queryset = queryset.filter(publish=True)
         if current_user == 'true':
-            queryset = queryset.filter(user=self.request.user)
+            qs = qs.filter(user=user)
         elif current_user == 'false':
-            queryset = queryset.exclude(user=self.request.user)
-        return queryset
+            qs = qs.exclude(user=user)
+        return qs
 
     def pre_save(self, obj):
         """
         Set the object's owner, based on the incoming request.
         """
-        obj.user = self.request.user
+        user = self.request.user
+        is_guest = user.is_anonymous()
+        allow_guest = settings.ALLOW_GUEST_SUPPORT
+
+        if is_guest and not allow_guest:
+            raise Http404
+
+        obj.user = None if is_guest else user
 
 
 class MessagePermissions(permissions.BasePermission):
