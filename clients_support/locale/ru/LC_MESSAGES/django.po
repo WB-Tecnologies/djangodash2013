@@ -1,0 +1,332 @@
+# THE RUSSIAN TRANSLATION OF DJANGO CLIENTS SUPPORT
+# Copyright (C) 2013 ROSTISLAV GRIGORIEV
+# This file is distributed under the same license as the DJANGO CLIENTS SUPPORT package.
+# Rostislav Grigoriev <hjcnbckfd@gmail.com>, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-25 20:39+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Rostislav Grigoriev <hjcnbckfd@gmail.com>\n"
+"Language-Team: \n"
+"Language: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: admin.py:13
+msgid "Only my tickets"
+msgstr "Только мои тикеты"
+
+#: admin.py:19 templates/clients_support/body.html:84
+msgid "Yes"
+msgstr "Да"
+
+#: admin.py:64
+#, fuzzy, python-format
+msgid "Published %(count)d ticket."
+msgid_plural "Published %(count)d tickets."
+msgstr[0] "Опубликован %(count)d тикет."
+msgstr[1] "Опубликовано %(count)d тикета."
+msgstr[2] "Опубликовано %(count)d тикетов."
+
+#: admin.py:68
+msgid "Mark selected tickets as published"
+msgstr "Опубликовать отмеченные тикеты"
+
+#: admin.py:73
+#, python-format
+msgid "Importance `%(value)s` put %(count)d ticket."
+msgid_plural "Importance `%(value)s` put %(count)d tickets."
+msgstr[0] "%(count)d тикету поставлена важность `%(value)s`."
+msgstr[1] "%(count)d тикетам поставлена важность `%(value)s`."
+msgstr[2] "%(count)d тикетам поставлена важность `%(value)s`."
+
+#: admin.py:80
+msgid "Change the importance of the selected tickets on a high"
+msgstr "Поставить высокую важность `high` отмеченным тикетам"
+
+#: admin.py:84
+msgid "Change the importance of the selected tickets on a normal"
+msgstr "Поставить среднюю важность `normal` отмеченным тикетам"
+
+#: admin.py:88
+msgid "Change the importance of the selected tickets on a low"
+msgstr "Поставить низкую важность `low` отмеченным тикетам"
+
+#: admin.py:97
+#, fuzzy, python-format
+msgid "Status `read` put %(count)d ticket."
+msgid_plural "Status `read` put %(count)d tickets."
+msgstr[0] "Статус `прочитан` поставлен %(count)d тикету."
+msgstr[1] "Статус `прочитан` поставлен %(count)d тикетам."
+msgstr[2] "Статус `прочитан` поставлен %(count)d тикетам."
+
+#: admin.py:101
+msgid "Status `read` can be supplied only by a new tickets."
+msgstr "Статус `прочтён` может быть поставлен только новым тикетам."
+
+#: admin.py:103
+msgid "Change the status of the selected tickets as read"
+msgstr "Поставить статус `прочитан` отмеченным тикетам"
+
+#: admin.py:114
+#, fuzzy, python-format
+msgid "Status `closed` put %(count)d ticket."
+msgid_plural "Status `closed` put %(count)d tickets."
+msgstr[0] "Статус `закрыт` поставлен %(count)d тикету."
+msgstr[1] "Статус `закрыт` поставлен %(count)d тикетам."
+msgstr[2] "Статус `закрыт` поставлен %(count)d тикетам."
+
+#: admin.py:118
+#, python-format
+msgid "Status `closed` can not be put tickets by status %(statuses)s."
+msgstr "Нельзя поставить статус `закрыт` тикетам со статусами %(statuses)s."
+
+#: admin.py:121
+msgid "Change the status of the selected tickets as closed"
+msgstr "Поставить статус `закрыт` отмеченным тикетам"
+
+#: models.py:12 models.py:19 templates/clients_support/body.html:24
+msgid "Name"
+msgstr "Имя"
+
+#: models.py:42
+msgid "New ticket"
+msgstr "Новый тикет"
+
+#: models.py:43
+msgid "Ticket was read"
+msgstr "Тикет прочитан"
+
+#: models.py:44
+msgid "Ticket was assigned"
+msgstr "Тикет назначен менеджеру"
+
+#: models.py:45
+msgid "Ticket was closed"
+msgstr "Тикет закрыт"
+
+#: models.py:46
+msgid "Ticket was solved"
+msgstr "Тикет решен"
+
+#: models.py:47
+msgid "Ticket was reopened"
+msgstr "Тикет открыт заново"
+
+#: models.py:55
+msgid "User was satisfied"
+msgstr "Пользователь доволен"
+
+#: models.py:56
+msgid "User was not satisfied"
+msgstr "Пользователь не доволен"
+
+#: models.py:57
+msgid "User is not rated ticket"
+msgstr "Пользователь не оставил оценки"
+
+#: models.py:65
+msgid "High importance"
+msgstr "Высокая важность"
+
+#: models.py:66
+msgid "Normal importance"
+msgstr "Средняя важность"
+
+#: models.py:67
+msgid "Not important"
+msgstr "Низкая важность"
+
+#: models.py:70
+msgid "Subject"
+msgstr "Тема"
+
+#: models.py:71 models.py:153
+msgid "Text"
+msgstr "Содержание"
+
+#: models.py:73 models.py:150 models.py:165
+msgid "User"
+msgstr "Пользователь"
+
+#: models.py:74
+msgid "Guest name"
+msgstr "Имя гостя"
+
+#: models.py:75
+msgid "Guest email"
+msgstr "Эл.почта гостя"
+
+#: models.py:76 models.py:166
+msgid "Status"
+msgstr "Статус"
+
+#: models.py:77
+msgid "User mark"
+msgstr "Оценка пользователя"
+
+#: models.py:78
+msgid "Ticket type"
+msgstr "Тип"
+
+#: models.py:79
+msgid "Importance"
+msgstr "Важность"
+
+#: models.py:81
+msgid "Manager"
+msgstr "Менеджер"
+
+#: models.py:82
+msgid "Tags"
+msgstr "Тэги"
+
+#: models.py:84
+msgid "Secret code (for guests)"
+msgstr "Защитный код (для гостя)"
+
+#: models.py:86
+msgid "Publish ticket"
+msgstr "Опубликован"
+
+#: models.py:88
+msgid "Was viewed after close"
+msgstr "Просмотрен после закрытия"
+
+#: models.py:89 models.py:156
+msgid "Created time"
+msgstr "Время создания"
+
+#: models.py:90
+msgid "Last updated time"
+msgstr "Время обновления"
+
+#: models.py:91
+msgid "Closed time"
+msgstr "Время закрытия"
+
+#: models.py:149 models.py:163
+msgid "Ticket"
+msgstr "Тикет"
+
+#: models.py:152
+msgid "Message from guest"
+msgstr "Сообщение от гостя"
+
+#: models.py:155
+msgid "Message was read"
+msgstr "Прочтено"
+
+#: models.py:168
+msgid "Time when the status was changed"
+msgstr "Время смены статуса"
+
+#: serializers.py:11
+msgid "Enter at least three characters."
+msgstr "Введите не менее трёх символов."
+
+#: templates/clients_support/body.html:6
+msgid "Django Client Support"
+msgstr ""
+
+#: templates/clients_support/body.html:13
+msgid "Add Ticket"
+msgstr "Добавить тикет"
+
+#: templates/clients_support/body.html:15
+msgid "Search..."
+msgstr "Поиск..."
+
+#: templates/clients_support/body.html:27
+msgid "Email"
+msgstr "Эл.почта"
+
+#: templates/clients_support/body.html:43
+msgid "Title"
+msgstr "Тема"
+
+#: templates/clients_support/body.html:47
+msgid "Problem Description..."
+msgstr "Описание проблемы..."
+
+#: templates/clients_support/body.html:50
+msgid "Send"
+msgstr "Отправить"
+
+#: templates/clients_support/body.html:56
+msgid "your tickets"
+msgstr "ваши тикеты"
+
+#: templates/clients_support/body.html:61
+msgid "other tickets"
+msgstr "другие тикеты"
+
+#: templates/clients_support/body.html:71
+msgid "MESSAGE WAS SENDED"
+msgstr "СООБЩЕНИЕ ОТПРАВЛЕНО"
+
+#: templates/clients_support/body.html:79
+msgid "Your Message..."
+msgstr "Ваше сообщение..."
+
+#: templates/clients_support/body.html:83
+msgid "Are you satisfied?"
+msgstr "Вы довольны?"
+
+#: templates/clients_support/body.html:85
+msgid "No"
+msgstr "Нет"
+
+#: templates/clients_support/body.html:89
+msgid "Reply"
+msgstr "Ответить"
+
+#: templates/clients_support/admin/block_with_statistics.html:4
+msgid "Open count"
+msgstr "Открыто"
+
+#: templates/clients_support/admin/block_with_statistics.html:5
+msgid "Closed count"
+msgstr "Закрыто"
+
+#: templates/clients_support/admin/block_with_statistics.html:6
+msgid "Total tickets count"
+msgstr "Всего тикетов"
+
+#: templates/clients_support/admin/block_with_statistics.html:8
+msgid "Count of tickets added today"
+msgstr "Сегодня закрыто"
+
+#: templates/clients_support/admin/block_with_statistics.html:9
+msgid "Count of tickets closed today"
+msgstr "Сегодня добавлено"
+
+#: templates/clients_support/admin/change_list.html:42
+msgid "Home"
+msgstr "Главная"
+
+#: templates/clients_support/admin/change_list.html:59
+#, python-format
+msgid "Add %(name)s"
+msgstr "Добавить %(name)s"
+
+#: templates/clients_support/admin/change_list.html:68
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Пожалуйста, исправьте ошибку ниже."
+msgstr[1] "Пожалуйста, исправьте ошибки ниже."
+
+#: templates/clients_support/admin/change_list.html:80
+msgid "Filter"
+msgstr "Фильтр"
+
+#: templates/clients_support/admin/change_ticket.html:14
+msgid "History tickets by"
+msgstr "История тикетов пользователя"

@@ -3,7 +3,8 @@ from datetime import datetime
 from django.contrib.admin.templatetags.admin_list import _boolean_icon
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.encoding import smart_unicode
+from django.utils.translation import ugettext as _, ungettext
 from clients_support.conf import settings
 
 
@@ -85,9 +86,9 @@ class Ticket(models.Model):
     publish = models.BooleanField(_('Publish ticket'))
     # Viewed after close
     viewed = models.BooleanField(_('Was viewed after close'))
-    created_time = models.DateTimeField(_('Created time'), auto_now_add=True)
-    updated_time = models.DateTimeField(_('Last updated time'), auto_now=True)
-    closed_time = models.DateTimeField(_('Closed time'), blank=True, null=True)
+    created_at = models.DateTimeField(_('Created time'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Last updated time'), auto_now=True)
+    closed_at = models.DateTimeField(_('Closed time'), blank=True, null=True)
 
     def __unicode__(self):
         return u'#%d. %s' % (self.pk, self.subject)
@@ -118,7 +119,7 @@ class Ticket(models.Model):
 
     def get_other_tickets(self):
         if settings.ADMIN_SHOW_USER_HISTORY_TICKETS and self.user:
-            return Ticket.objects.filter(user=self.user).exclude(pk=self.pk).order_by('-created_time')
+            return Ticket.objects.filter(user=self.user).exclude(pk=self.pk).order_by('-created_at')
         return []
 
     @property
@@ -137,9 +138,9 @@ class Ticket(models.Model):
                 if new_value != old_value:
                     changed = True
             if changed:
-                self.closed_time = datetime.now()
+                self.closed_at = datetime.now()
         if self.is_reopened:
-            self.closed_time = None
+            self.closed_at = None
 
         super(Ticket, self).save(*args, **kwargs)
 
@@ -152,10 +153,10 @@ class Message(models.Model):
     text = models.TextField(_('Text'))
     # If a message is created by the client, then automatically placed in the True, otherwise False.
     was_read = models.BooleanField(_('Message was read'))
-    created_time = models.DateTimeField(_('Created time'), auto_now_add=True)
+    created_at = models.DateTimeField(_('Created time'), auto_now_add=True)
 
     def __unicode__(self):
-        return str(self.ticket)
+        return smart_unicode(self.ticket)
 
 
 class StatusLog(models.Model):
@@ -164,15 +165,15 @@ class StatusLog(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name=_('User'))
     status = models.CharField(_('Status'), max_length=10, choices=Ticket.STATUSES)
     # Time when the status was changed
-    created_time = models.DateTimeField(_('Time when the status was changed'), auto_now_add=True)
+    created_at = models.DateTimeField(_('Time when the status was changed'), auto_now_add=True)
 
     @staticmethod
     def add_log(ticket, user, status):
-        status_log = StatusLog()
-        status_log.ticket = ticket
-        status_log.user = user
-        status_log.status = status
-        status_log.save()
+        StatusLog(
+            ticket=ticket,
+            user=user,
+            status=status
+        ).save()
 
     def __unicode__(self):
-        return str(self.ticket)
+        return smart_unicode(self.ticket)

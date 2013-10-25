@@ -92,13 +92,10 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     @property
     def queryset(self):
-        try:
-            ticket = int(self.request.QUERY_PARAMS.get('ticket', None))
-        except (ValueError, TypeError):
-            ticket = None
+        ticket_id = self.request.QUERY_PARAMS.get('ticket', '')
         queryset = Message.objects.all()
-        if ticket:
-            queryset = queryset.filter(ticket_id=ticket)
+        if ticket_id.isdigit():
+            queryset = queryset.filter(ticket__id=ticket_id)
         return queryset
 
     def pre_save(self, obj):

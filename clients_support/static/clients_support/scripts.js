@@ -6,7 +6,7 @@ function render_ticket(ticket, msg_form) {
     + '<dd class="dcs-tickets_description">'
     + '<ul class="dcs-tickets_history">'
     + '<li class="dcs-tickets_reply"><p>' + ticket.text 
-    + '</p><p class="dcs-tickets_author dcs-tickets_author__self">' + ticket.created_time 
+    + '</p><p class="dcs-tickets_author dcs-tickets_author__self">' + ticket.created_at 
     + '</p></li></ul></dd>';
 
     return html;
@@ -20,7 +20,7 @@ function render_my_ticket(ticket, msg_form) {
     + '<dd class="dcs-tickets_description">'
     + '<ul class="dcs-tickets_history">'
     + '<li class="dcs-tickets_reply"><p>' + ticket.text
-    + '</p><p class="dcs-tickets_author dcs-tickets_author__self">' + ticket.created_time 
+    + '</p><p class="dcs-tickets_author dcs-tickets_author__self">' + ticket.created_at 
     + '</p></li>' + msg_form + '</ul></dd>';
 
     return html;
@@ -29,7 +29,7 @@ function render_my_ticket(ticket, msg_form) {
 function render_message(message) {
     var html = '<li class="dcs-tickets_reply">'
     + '<p>' + message.text + '</p>'
-    + '<p class="dcs-tickets_author dcs-tickets_author__self">' + message.created_time + '</p>'
+    + '<p class="dcs-tickets_author dcs-tickets_author__self">' + message.created_at + '</p>'
     + '</li>';
 
     return html;

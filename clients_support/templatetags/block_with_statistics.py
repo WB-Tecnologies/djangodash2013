@@ -23,6 +23,6 @@ def block_with_statistics():
         closed_count=queryset.filter(status=Ticket.CLOSED_STATUS).count(),
         open_count=queryset.exclude(status__in=[Ticket.CLOSED_STATUS, Ticket.SOLVED_STATUS]).count(),
         total_count=queryset.count(),
-        add_today_count=queryset.filter(**date_params('created_time', today)).count(),
-        closed_today_count=queryset.filter(status=Ticket.CLOSED_STATUS, **date_params('closed_time', today)).count()
+        add_today_count=queryset.filter(**date_params('created_at', today)).count(),
+        closed_today_count=queryset.filter(status=Ticket.CLOSED_STATUS, **date_params('closed_at', today)).count()
     )

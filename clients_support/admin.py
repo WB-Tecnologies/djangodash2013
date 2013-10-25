@@ -3,7 +3,7 @@ from datetime import datetime
 import autocomplete_light
 from django import forms
 from django.contrib import admin, messages
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, ungettext
 from clients_support.conf import settings
 
 from clients_support.models import Ticket, TicketType, StatusLog, Tag
@@ -40,15 +40,15 @@ class TicketAdmin(admin.ModelAdmin):
     # form = TicketForm
     form = autocomplete_light.modelform_factory(Ticket, form=TicketForm)
 
-    list_display = ('subject', 'user', 'manager', 'status', 'type', 'importance', 'updated_time')
-    list_filter = ('tags', 'type', 'importance', 'status', 'created_time', AssignManagerFilter)
+    list_display = ('subject', 'user', 'manager', 'status', 'type', 'importance', 'updated_at')
+    list_filter = ('tags', 'type', 'importance', 'status', 'created_at', AssignManagerFilter)
     search_fields = ('subject', 'text')
     actions = ['make_published', 'change_importance_to_high', 'change_importance_to_normal', 'change_importance_to_low',
                'change_status_to_read', 'change_status_to_closed']
 
     change_form_template = 'clients_support/admin/change_ticket.html'
     change_list_template = 'clients_support/admin/change_list.html'
-    readonly_fields = ('created_time', 'closed_time')
+    readonly_fields = ('created_at', 'closed_at')
 
     def has_add_permission(self, request):
         return settings.ADMIN_PERMISSION_ADD_TICKET
@@ -60,24 +60,32 @@ class TicketAdmin(admin.ModelAdmin):
 
     def make_published(self, request, queryset):
         count = queryset.exclude(publish=True).update(publish=True)
-        messages.success(request, _("Published %(count)d tickets.") % dict(count=count))
-    make_published.short_description = _("Mark selected tickets as published")
+        messages.success(request, ungettext(
+            'Published %(count)d ticket.',
+            'Published %(count)d tickets.',
+            count) % dict(count=count)
+        )
+    make_published.short_description = _('Mark selected tickets as published')
 
     def _change_importance(self, request, queryset, value):
         count = queryset.exclude(importance=value).update(importance=value)
-        messages.success(request, _("Importance `%(value)s` put %(count)d tickets.") % dict(value=value, count=count))
+        messages.success(request, ungettext(
+            'Importance `%(value)s` put %(count)d ticket.',
+            'Importance `%(value)s` put %(count)d tickets.',
+            count) % dict(value=value, count=count)
+        )
 
     def change_importance_to_high(self, request, queryset):
         self._change_importance(request, queryset, Ticket.HIGH_IMPORTANT)
-    change_importance_to_high.short_description = _("Change the importance of the selected tickets on a high")
+    change_importance_to_high.short_description = _('Change the importance of the selected tickets on a high')
 
     def change_importance_to_normal(self, request, queryset):
         self._change_importance(request, queryset, Ticket.NORMAL_IMPORTANT)
-    change_importance_to_normal.short_description = _("Change the importance of the selected tickets on a normal")
+    change_importance_to_normal.short_description = _('Change the importance of the selected tickets on a normal')
 
     def change_importance_to_low(self, request, queryset):
         self._change_importance(request, queryset, Ticket.NOT_IMPORTANT)
-    change_importance_to_low.short_description = _("Change the importance of the selected tickets on a low")
+    change_importance_to_low.short_description = _('Change the importance of the selected tickets on a low')
 
     def change_status_to_read(self, request, queryset):
         for ticket in queryset:
@@ -85,11 +93,14 @@ class TicketAdmin(admin.ModelAdmin):
                 StatusLog.add_log(ticket, request.user, ticket.READ_STATUS)
         count = queryset.filter(status=Ticket.NEW_STATUS).update(status=Ticket.READ_STATUS)
         if count:
-            messages.success(request, _("Status `read` put %(count)d tickets.") % dict(count=count))
+            messages.success(request, ungettext(
+                'Status `read` put %(count)d ticket.',
+                'Status `read` put %(count)d tickets.',
+                count) % dict(count=count))
         else:
-            messages.error(request, _("Status `read` can be supplied only by a new tickets."))
+            messages.error(request, _('Status `read` can be supplied only by a new tickets.'))
 
-    change_status_to_read.short_description = _("Change the status of the selected tickets as read")
+    change_status_to_read.short_description = _('Change the status of the selected tickets as read')
 
     def change_status_to_closed(self, request, queryset):
         deny_statuses = [Ticket.CLOSED_STATUS, Ticket.SOLVED_STATUS, Ticket.REOPENED_STATUS]
@@ -97,23 +108,24 @@ class TicketAdmin(admin.ModelAdmin):
             if not ticket.status in deny_statuses:
                 StatusLog.add_log(ticket, request.user, ticket.CLOSED_STATUS)
         count = queryset.exclude(status__in=deny_statuses).\
-            update(status=Ticket.CLOSED_STATUS, closed_time=datetime.now())
+            update(status=Ticket.CLOSED_STATUS, closed_at=datetime.now())
         if count:
-            messages.success(request, _("Status `closed` put %(count)d tickets.") % dict(count=count))
+            messages.success(request, ungettext(
+                'Status `closed` put %(count)d ticket.',
+                'Status `closed` put %(count)d tickets.',
+                count) % dict(count=count))
         else:
-            messages.error(request, _("Status `closed` can not be put tickets by status "
-                                      "%(statuses)s.") % dict(statuses=', '.join(deny_statuses)))
+            messages.error(request, _('Status `closed` can not be put tickets by status '
+                                      '%(statuses)s.') % dict(statuses=', '.join(deny_statuses)))
 
-
-
-    change_status_to_closed.short_description = _("Change the status of the selected tickets as closed")
+    change_status_to_closed.short_description = _('Change the status of the selected tickets as closed')
 
 
 class StatusLogAdmin(admin.ModelAdmin):
-    list_display = ('ticket', 'user', 'status', 'created_time')
-    list_filter = ('ticket', 'user', 'status', 'created_time')
+    list_display = ('ticket', 'user', 'status', 'created_at')
+    list_filter = ('ticket', 'user', 'status', 'created_at')
     readonly_fields = ('ticket', 'user', 'status')
-    ordering = ('-created_time',)
+    ordering = ('-created_at',)
 
     def has_add_permission(self, request):
         return False
