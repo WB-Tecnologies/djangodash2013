@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-25 20:39+0800\n"
+"POT-Creation-Date: 2013-10-26 17:30+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rostislav Grigoriev <hjcnbckfd@gmail.com>\n"
 "Language-Team: \n"
@@ -28,7 +28,7 @@ msgid "Yes"
 msgstr "Да"
 
 #: admin.py:64
-#, fuzzy, python-format
+#, python-format
 msgid "Published %(count)d ticket."
 msgid_plural "Published %(count)d tickets."
 msgstr[0] "Опубликован %(count)d тикет."
@@ -60,7 +60,7 @@ msgid "Change the importance of the selected tickets on a low"
 msgstr "Поставить низкую важность `low` отмеченным тикетам"
 
 #: admin.py:97
-#, fuzzy, python-format
+#, python-format
 msgid "Status `read` put %(count)d ticket."
 msgid_plural "Status `read` put %(count)d tickets."
 msgstr[0] "Статус `прочитан` поставлен %(count)d тикету."
@@ -76,7 +76,7 @@ msgid "Change the status of the selected tickets as read"
 msgstr "Поставить статус `прочитан` отмеченным тикетам"
 
 #: admin.py:114
-#, fuzzy, python-format
+#, python-format
 msgid "Status `closed` put %(count)d ticket."
 msgid_plural "Status `closed` put %(count)d tickets."
 msgstr[0] "Статус `закрыт` поставлен %(count)d тикету."
@@ -92,141 +92,197 @@ msgstr "Нельзя поставить статус `закрыт` тикета
 msgid "Change the status of the selected tickets as closed"
 msgstr "Поставить статус `закрыт` отмеченным тикетам"
 
-#: models.py:12 models.py:19 templates/clients_support/body.html:24
+#: models.py:12
+msgctxt "ticket_type_name"
 msgid "Name"
 msgstr "Имя"
 
-#: models.py:42
-msgid "New ticket"
-msgstr "Новый тикет"
-
-#: models.py:43
-msgid "Ticket was read"
-msgstr "Тикет прочитан"
-
-#: models.py:44
-msgid "Ticket was assigned"
-msgstr "Тикет назначен менеджеру"
-
-#: models.py:45
-msgid "Ticket was closed"
-msgstr "Тикет закрыт"
-
-#: models.py:46
-msgid "Ticket was solved"
-msgstr "Тикет решен"
-
-#: models.py:47
-msgid "Ticket was reopened"
-msgstr "Тикет открыт заново"
-
-#: models.py:55
-msgid "User was satisfied"
-msgstr "Пользователь доволен"
-
-#: models.py:56
-msgid "User was not satisfied"
-msgstr "Пользователь не доволен"
-
-#: models.py:57
-msgid "User is not rated ticket"
-msgstr "Пользователь не оставил оценки"
-
-#: models.py:65
-msgid "High importance"
-msgstr "Высокая важность"
-
-#: models.py:66
-msgid "Normal importance"
-msgstr "Средняя важность"
-
-#: models.py:67
-msgid "Not important"
-msgstr "Низкая важность"
-
-#: models.py:70
-msgid "Subject"
-msgstr "Тема"
-
-#: models.py:71 models.py:153
-msgid "Text"
-msgstr "Содержание"
-
-#: models.py:73 models.py:150 models.py:165
-msgid "User"
-msgstr "Пользователь"
-
-#: models.py:74
-msgid "Guest name"
-msgstr "Имя гостя"
-
-#: models.py:75
-msgid "Guest email"
-msgstr "Эл.почта гостя"
-
-#: models.py:76 models.py:166
-msgid "Status"
-msgstr "Статус"
-
-#: models.py:77
-msgid "User mark"
-msgstr "Оценка пользователя"
-
-#: models.py:78
+#: models.py:15
+msgctxt "vn_ticket_type"
 msgid "Ticket type"
-msgstr "Тип"
+msgstr "Тип тикета"
 
-#: models.py:79
-msgid "Importance"
-msgstr "Важность"
+#: models.py:16
+msgctxt "vnp_ticket_type"
+msgid "Tickets types"
+msgstr "Типы тикетов"
 
-#: models.py:81
-msgid "Manager"
-msgstr "Менеджер"
+#: models.py:23
+msgctxt "tag_name"
+msgid "Name"
+msgstr "Имя"
 
-#: models.py:82
+#: models.py:26
+msgctxt "vn_tag"
+msgid "Tag"
+msgstr "Тэг"
+
+#: models.py:27
+msgctxt "vnp_tag"
 msgid "Tags"
 msgstr "Тэги"
 
-#: models.py:84
+#: models.py:50
+msgid "New ticket"
+msgstr "Новый тикет"
+
+#: models.py:51
+msgid "Ticket was read"
+msgstr "Тикет прочитан"
+
+#: models.py:52
+msgid "Ticket was assigned"
+msgstr "Тикет назначен менеджеру"
+
+#: models.py:53
+msgid "Ticket was closed"
+msgstr "Тикет закрыт"
+
+#: models.py:54
+msgid "Ticket was solved"
+msgstr "Тикет решен"
+
+#: models.py:55
+msgid "Ticket was reopened"
+msgstr "Тикет открыт заново"
+
+#: models.py:63
+msgid "User was satisfied"
+msgstr "Пользователь доволен"
+
+#: models.py:64
+msgid "User was not satisfied"
+msgstr "Пользователь не доволен"
+
+#: models.py:65
+msgid "User is not rated ticket"
+msgstr "Пользователь не оставил оценки"
+
+#: models.py:73
+msgid "High importance"
+msgstr "Высокая важность"
+
+#: models.py:74
+msgid "Normal importance"
+msgstr "Средняя важность"
+
+#: models.py:75
+msgid "Not important"
+msgstr "Низкая важность"
+
+#: models.py:78
+msgid "Subject"
+msgstr "Тема"
+
+#: models.py:79 models.py:165
+msgid "Text"
+msgstr "Содержание"
+
+#: models.py:81 models.py:162 models.py:181
+msgid "User"
+msgstr "Пользователь"
+
+#: models.py:82
+msgid "Guest name"
+msgstr "Имя гостя"
+
+#: models.py:83
+msgid "Guest email"
+msgstr "Эл.почта гостя"
+
+#: models.py:84 models.py:182
+msgid "Status"
+msgstr "Статус"
+
+#: models.py:85
+msgid "User mark"
+msgstr "Оценка пользователя"
+
+#: models.py:86
+msgid "Ticket type"
+msgstr "Тип"
+
+#: models.py:87
+msgid "Importance"
+msgstr "Важность"
+
+#: models.py:89
+msgid "Manager"
+msgstr "Менеджер"
+
+#: models.py:90
+msgid "Tags"
+msgstr "Тэги"
+
+#: models.py:92
 msgid "Secret code (for guests)"
 msgstr "Защитный код (для гостя)"
 
-#: models.py:86
+#: models.py:94
 msgid "Publish ticket"
 msgstr "Опубликован"
 
-#: models.py:88
+#: models.py:96
 msgid "Was viewed after close"
 msgstr "Просмотрен после закрытия"
 
-#: models.py:89 models.py:156
+#: models.py:97 models.py:168
 msgid "Created time"
 msgstr "Время создания"
 
-#: models.py:90
+#: models.py:98
 msgid "Last updated time"
 msgstr "Время обновления"
 
-#: models.py:91
+#: models.py:99
 msgid "Closed time"
 msgstr "Время закрытия"
 
-#: models.py:149 models.py:163
+#: models.py:102
+msgctxt "vn_ticket"
 msgid "Ticket"
 msgstr "Тикет"
 
-#: models.py:152
+#: models.py:103
+msgctxt "vnp_ticket"
+msgid "Tickets"
+msgstr "Тикеты"
+
+#: models.py:161 models.py:179
+msgid "Ticket"
+msgstr "Тикет"
+
+#: models.py:164
 msgid "Message from guest"
 msgstr "Сообщение от гостя"
 
-#: models.py:155
+#: models.py:167
 msgid "Message was read"
 msgstr "Прочтено"
 
-#: models.py:168
+#: models.py:171
+msgctxt "vn_message"
+msgid "Message"
+msgstr "Сообщение"
+
+#: models.py:172
+msgctxt "vnp_message"
+msgid "Messages"
+msgstr "Сообщения"
+
+#: models.py:184
 msgid "Time when the status was changed"
 msgstr "Время смены статуса"
+
+#: models.py:187
+msgctxt "vn_status_log"
+msgid "Log status changes"
+msgstr "Лог статуса"
+
+#: models.py:188
+msgctxt "vnp_status_log"
+msgid "Log status changes of tickets"
+msgstr "Лог изменения статусов тикетов"
 
 #: serializers.py:11
 msgid "Enter at least three characters."
@@ -243,6 +299,10 @@ msgstr "Добавить тикет"
 #: templates/clients_support/body.html:15
 msgid "Search..."
 msgstr "Поиск..."
+
+#: templates/clients_support/body.html:24
+msgid "Name"
+msgstr "Имя"
 
 #: templates/clients_support/body.html:27
 msgid "Email"

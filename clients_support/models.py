@@ -4,19 +4,27 @@ from django.contrib.admin.templatetags.admin_list import _boolean_icon
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import smart_unicode
-from django.utils.translation import ugettext as _, ungettext
+from django.utils.translation import ugettext as _, ungettext, pgettext
 from clients_support.conf import settings
 
 
 class TicketType(models.Model):
-    name = models.CharField(_('Name'), max_length=255)
+    name = models.CharField(pgettext('ticket_type_name', 'Name'), max_length=255)
+
+    class Meta(object):
+        verbose_name = pgettext('vn_ticket_type', 'Ticket type')
+        verbose_name_plural = pgettext('vnp_ticket_type', 'Tickets types')
 
     def __unicode__(self):
         return self.name
 
 
 class Tag(models.Model):
-    name = models.CharField(_('Name'), max_length=255)
+    name = models.CharField(pgettext('tag_name', 'Name'), max_length=255)
+
+    class Meta(object):
+        verbose_name = pgettext('vn_tag', 'Tag')
+        verbose_name_plural = pgettext('vnp_tag', 'Tags')
 
     def __unicode__(self):
         return self.name
@@ -90,6 +98,10 @@ class Ticket(models.Model):
     updated_at = models.DateTimeField(_('Last updated time'), auto_now=True)
     closed_at = models.DateTimeField(_('Closed time'), blank=True, null=True)
 
+    class Meta(object):
+        verbose_name = pgettext('vn_ticket', 'Ticket')
+        verbose_name_plural = pgettext('vnp_ticket', 'Tickets')
+
     def __unicode__(self):
         return u'#%d. %s' % (self.pk, self.subject)
 
@@ -155,6 +167,10 @@ class Message(models.Model):
     was_read = models.BooleanField(_('Message was read'))
     created_at = models.DateTimeField(_('Created time'), auto_now_add=True)
 
+    class Meta(object):
+        verbose_name = pgettext('vn_message', 'Message')
+        verbose_name_plural = pgettext('vnp_message', 'Messages')
+
     def __unicode__(self):
         return smart_unicode(self.ticket)
 
@@ -166,6 +182,10 @@ class StatusLog(models.Model):
     status = models.CharField(_('Status'), max_length=10, choices=Ticket.STATUSES)
     # Time when the status was changed
     created_at = models.DateTimeField(_('Time when the status was changed'), auto_now_add=True)
+
+    class Meta(object):
+        verbose_name = pgettext('vn_status_log', 'Log status changes')
+        verbose_name_plural = pgettext('vnp_status_log', 'Log status changes of tickets')
 
     @staticmethod
     def add_log(ticket, user, status):
