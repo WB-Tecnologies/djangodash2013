@@ -6,7 +6,7 @@ from django.contrib import admin, messages
 from django.utils.translation import ugettext as _, ungettext
 from clients_support.conf import settings
 
-from clients_support.models import Ticket, TicketType, StatusLog, Tag
+from clients_support.models import Ticket, TicketType, StatusLog, Tag, Message
 
 
 class AssignManagerFilter(admin.SimpleListFilter):
@@ -35,12 +35,20 @@ class TicketForm(forms.ModelForm):
                 self.instance.get_status_choices_unless([Ticket.SOLVED_STATUS, Ticket.REOPENED_STATUS])
 
 
+class MessageAdminInline(admin.TabularInline):
+
+    model = Message
+    extra = 1
+
+
 class TicketAdmin(admin.ModelAdmin):
 
     # form = TicketForm
     form = autocomplete_light.modelform_factory(Ticket, form=TicketForm)
 
-    list_display = ('subject', 'user', 'manager', 'status', 'type', 'importance', 'updated_at')
+    inlines = [MessageAdminInline]
+
+    list_display = ('subject', 'user', 'manager', 'status', 'type', 'importance', 'publish', 'updated_at')
     list_filter = ('tags', 'type', 'importance', 'status', 'created_at', AssignManagerFilter)
     search_fields = ('subject', 'text')
     actions = ['make_published', 'change_importance_to_high', 'change_importance_to_normal', 'change_importance_to_low',

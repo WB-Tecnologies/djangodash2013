@@ -1,29 +1,14 @@
 function render_ticket(ticket, msg_form) {
-    var html = 
-      '<dt class="dcs-tickets_item dcs-tickets_item__active" data-id="' + ticket.id + '">'
+    msg_form = msg_form || '';
+    return '<dt class="dcs-tickets_item dcs-tickets_item__active" data-id="' + ticket.id + '">'
     + '<span class="dcs-tickets_title">' + ticket.subject + '</span>'
     + '</dt>'
     + '<dd class="dcs-tickets_description">'
     + '<ul class="dcs-tickets_history">'
     + '<li class="dcs-tickets_reply"><p>' + ticket.text 
     + '</p><p class="dcs-tickets_author dcs-tickets_author__self">' + ticket.created_at 
-    + '</p></li></ul></dd>';
-
-    return html;
-}
-
-function render_my_ticket(ticket, msg_form) {
-    var html = 
-      '<dt class="dcs-tickets_item dcs-tickets_item__active" data-id="' + ticket.id + '">'
-    + '<span class="dcs-tickets_title">' + ticket.subject + '</span>'
-    + '</dt>'
-    + '<dd class="dcs-tickets_description">'
-    + '<ul class="dcs-tickets_history">'
-    + '<li class="dcs-tickets_reply"><p>' + ticket.text
-    + '</p><p class="dcs-tickets_author dcs-tickets_author__self">' + ticket.created_at 
     + '</p></li>' + msg_form + '</ul></dd>';
 
-    return html;
 }
 
 function render_message(message) {
@@ -51,6 +36,7 @@ $(function(){
         e.preventDefault();
         $(".dcs-overlay").show();
 
+
         (function(callback) {
             var i = 0;
             function run_callback() {
@@ -61,7 +47,7 @@ $(function(){
             $.getJSON('/clients_support/tickets/', {'current_user': 'true'}, function(data) {
                 var html = '';
                 for (var index in data) {
-                    html += render_my_ticket(data[index], add_message_form);
+                    html += render_ticket(data[index], add_message_form);
                 }
                 $('.your-tickets').html(html);
                 i++;
@@ -81,13 +67,16 @@ $(function(){
         }) (function() {
             $(".dcs-form").show();
             $('.messages').hide();
+            if (!$('.your-tickets, .other-tickets').find('.dcs-tickets_item').length){
+                $('.dcs-add_button').trigger('click');
+            }
         });
     });
 
     $(".dcs-form_close, .dcs-overlay").on("click", function(e){
         e.preventDefault();
         $('.dcs-addticket').hide();
-        $('.tickets-list, .dcs-search, .dcs-search_button').show();
+        $('.tickets-list, .dcs-search, .dcs-add_button').show();
         $(".dcs-form").hide();
         $(".dcs-overlay").hide();
     });
@@ -144,7 +133,7 @@ $(function(){
 
 
     /* Add ticket */
-    $('.dcs-search_button').click(function() {
+    $('.dcs-add_button').click(function() {
         $.getJSON('/clients_support/ticket_types/', function(data) {
             var $dcs_select = $('.dcs-select');
             $dcs_select.empty();
@@ -153,7 +142,7 @@ $(function(){
                                             + data[index].name + '</option>')
             }
             $('.dcs-addticket').show();
-            $('.tickets-list, .dcs-search, .dcs-search_button').hide();
+            $('.tickets-list, .dcs-search, .dcs-add_button').hide();
         })
     });
 
@@ -179,7 +168,7 @@ $(function(){
             'dataType': 'json',
             'success': function(resp) {
                 $('.dcs-addticket').hide();
-                $('.tickets-list, .dcs-search, .dcs-search_button').show();
+                $('.tickets-list, .dcs-search, .dcs-add_button').show();
                 $('.tickets').hide();
                 $('.messages').show();
             }

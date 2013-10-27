@@ -55,8 +55,8 @@ class Ticket(models.Model):
         (REOPENED_STATUS, _('Ticket was reopened'))
     )
 
-    SATISFIED_MARK = 'satisfied'
-    NOT_SATISFIED_MARK = 'not_satisfied'
+    SATISFIED_MARK = 'yes'
+    NOT_SATISFIED_MARK = 'no'
     NOT_RATED_MARK = 'not_rated'
 
     MARKS = (
@@ -173,6 +173,10 @@ class Message(models.Model):
 
     def __unicode__(self):
         return smart_unicode(self.ticket)
+
+    def save(self, *args, **kwargs):
+        self.from_guest = not bool(self.user)
+        super(Message, self).save(*args, **kwargs)
 
 
 class StatusLog(models.Model):

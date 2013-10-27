@@ -23,7 +23,7 @@
 .dcs-button:active {top:1px;}
 
 /* Search Field */
-.dcs-search_button {float:right;margin:8px 0 0;}
+.dcs-add_button {float:right;margin:8px 0 0;}
 .dcs-search_wrap {position:relative;left:-8px;overflow:hidden;padding:8px 26px 8px 8px;}
 .dcs-search_input:focus {-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(125,125,125,0.6);}
 

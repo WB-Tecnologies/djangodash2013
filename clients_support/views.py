@@ -102,7 +102,14 @@ class MessageViewSet(viewsets.ModelViewSet):
         """
         Set the object's owner, based on the incoming request.
         """
-        obj.user = self.request.user
+        user = self.request.user
+        is_guest = user.is_anonymous()
+        allow_guest = settings.ALLOW_GUEST_SUPPORT
+
+        if is_guest and not allow_guest:
+            raise Http404
+
+        obj.user = None if is_guest else user
 
 
 class TicketTypeViewSet(viewsets.ModelViewSet):

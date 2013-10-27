@@ -16,3 +16,5 @@ INCLUDE_AUTOCOMPLETE_LIGHT_URLS = getattr(django_settings, 'SUPPORT_INCLUDE_AUTO
 ADMIN_SHOW_USER_HISTORY_TICKETS = getattr(django_settings, 'SUPPORT_ADMIN_SHOW_USER_HISTORY_TICKETS', True)
 
 AUTH_USER_MODEL = getattr(django_settings, 'AUTH_USER_MODEL', 'auth.User')
+
+PROJECT_DATE_FORMAT = getattr(django_settings, 'SUPPORT_DATE_FORMAT', "%B %d, %Y; %H:%M")
