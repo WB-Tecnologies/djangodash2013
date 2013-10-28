@@ -1,4 +1,6 @@
-{% load i18n %}<script src="{{ STATIC_URL }}clients_support/scripts.js"></script>
+{% load i18n %}
+<script src="{{ STATIC_URL }}clients_support/scripts.js"></script>
+<script src="{{ STATIC_URL }}clients_support/jquery.pagination.js"></script>
 
 <a href="#" class="dcs-plate rotate_ccw">
     <span class="dcs-plate_counter rotate_cw">3</span>
@@ -8,7 +10,10 @@
 </a>
 
 <div class="dcs-overlay"></div>
-    <div class="dcs-form tickets">
+
+{% with user_auth=user.is_authenticated %}
+<div class="dcs-form tickets" id="clients_support-form">
+
     <div class="dcs-search">
         <a href="#" class="dcs-button dcs-add_button">{% trans 'Add Ticket' %}</a>
         <div class="dcs-search_wrap">
@@ -18,7 +23,6 @@
 
     <div class="dcs-addticket" style="display: none;">
         <form class="" action="#" method="post" id="addticket-form">
-            {% with user_auth=user.is_authenticated %}
             <div class="dcs-form_line dcs-addticket_name"{% if user_auth %} style="display: none;"{% endif %}>
                 <div class="field-error alert-warning hide" data-name="guest_name"></div>
                 <input type="text" id="addticket-guest_name" class="dcs-input" placeholder="{% trans 'Name' %}">
@@ -26,7 +30,7 @@
                 <div class="field-error alert-warning hide" data-name="guest_email"></div>
                 <input type="email" id="addticket-guest_email" class="dcs-input" placeholder="{% trans 'Email' %}">
             </div>
-            {% endwith %}
+
             <div class="dcs-form_line">
                 <div class="field-error alert-warning hide" data-name="type"></div>
                 <select class="dcs-select" id="addticket-topic">
@@ -52,23 +56,27 @@
     </div>
 
     <span class="tickets-list">
-    <h2 class="dcs-title">{% trans 'your tickets' %}</h2>
-    <dl class="dcs-tickets your-tickets">
+        {% if not user_auth %}
+        <h2 class="dcs-title">{% trans 'Tickets' %}</h2>
+        <dl class="dcs-tickets common-tickets"></dl>
+        {% else %}
+        <h2 class="dcs-title">{% trans 'Your tickets' %}</h2>
+        <dl class="dcs-tickets your-tickets"></dl>
 
-    </dl>
+        <h2 class="dcs-title">{% trans 'Other tickets' %}</h2>
+        <dl class="dcs-tickets other-tickets"></dl>
+        {% endif %}
+        <div id="dcs-pager" class="pagination"></div>
 
-    <h2 class="dcs-title">{% trans 'other tickets' %}</h2>
-    <dl class="dcs-tickets other-tickets">
-
-    </dl>
     </span>
     
     <a href="#" class="dcs-form_close">&times;</a>
 </div>
+{% endwith %}
 
-    <div class="dcs-form messages">
-        <h2 class="dcs-title">{% trans 'MESSAGE WAS SENDED' %}</h2>
-    </div>
+<div class="dcs-form messages">
+    <h2 class="dcs-title">{% trans 'MESSAGE WAS SENDED' %}</h2>
+</div>
 
 
 <script type="text/template" id="add-message-form"><li class="dcs-tickets_addreply">

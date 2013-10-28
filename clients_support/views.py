@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.http.response import Http404
+import operator
 from clients_support.conf import settings
 
 from clients_support.models import Ticket, Message, StatusLog, TicketType, Tag
@@ -39,6 +40,10 @@ class TicketViewSet(viewsets.ModelViewSet):
     authentication_classes = (UnsafeSessionAuthentication, )
     model_serializer_class = TicketSerializer
 
+    paginate_by = 10
+    paginate_by_param = 'page_size'
+    max_paginate_by = 100
+
     @property
     def queryset(self):
         qs = Ticket.objects.filter(publish=True)
@@ -54,6 +59,7 @@ class TicketViewSet(viewsets.ModelViewSet):
 
         publish = self.request.QUERY_PARAMS.get('publish', None)
         current_user = self.request.QUERY_PARAMS.get('current_user', None)
+        term = self.request.QUERY_PARAMS.get('term', '')
 
         if not allow_guest:
             qs.filter(user__exists=True)
@@ -61,9 +67,22 @@ class TicketViewSet(viewsets.ModelViewSet):
         #    queryset = queryset.filter(publish=True)
         if current_user == 'true':
             qs = qs.filter(user=user)
-        elif current_user == 'false':
+        elif current_user == 'false' and user:
             qs = qs.exclude(user=user)
+
+        if term:
+            # generate search queries, example: Q(subject__icontains=term)
+            _pfx = '__%scontains' % settings.SEARCH_I
+            q_search = [Q((field_name + _pfx, term))
+                              for field_name in settings.SEARCH_FIELDS]
+            qs = qs.filter(reduce(operator.or_, q_search))
         return qs
+
+    def paginate_queryset(self, queryset, page_size=None):
+        current_user = self.request.QUERY_PARAMS.get('current_user', None)
+        if current_user == 'true':
+            return
+        return super(TicketViewSet, self).paginate_queryset(queryset, page_size=None)
 
     def pre_save(self, obj):
         """
@@ -93,10 +112,12 @@ class MessageViewSet(viewsets.ModelViewSet):
     @property
     def queryset(self):
         ticket_id = self.request.QUERY_PARAMS.get('ticket', '')
-        queryset = Message.objects.all()
+        qs = Message.objects.all()
         if ticket_id.isdigit():
-            queryset = queryset.filter(ticket__id=ticket_id)
-        return queryset
+            qs = qs.filter(ticket__id=ticket_id)
+        else:
+            qs = qs.none()
+        return qs
 
     def pre_save(self, obj):
         """

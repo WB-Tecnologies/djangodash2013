@@ -48,6 +48,9 @@ class TicketSerializer(ModelSerializer):
         set_project_locale()
 
         for field_name, field in self.fields.items():
+            if not field_name in settings.ALLOW_TICKET_FIELDS:
+                continue
+
             field.initialize(parent=self, field_name=field_name)
             key = self.get_field_key(field_name)
             value = field.field_to_native(obj, field_name)
@@ -58,6 +61,7 @@ class TicketSerializer(ModelSerializer):
                     value = value.strftime(settings.PROJECT_DATE_FORMAT)
             ret[key] = value
             ret.fields[key] = field
+
         return ret
 
 

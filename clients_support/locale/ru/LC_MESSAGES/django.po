@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-26 17:30+0800\n"
+"POT-Creation-Date: 2013-10-28 22:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rostislav Grigoriev <hjcnbckfd@gmail.com>\n"
 "Language-Team: \n"
@@ -27,7 +27,7 @@ msgstr "Только мои тикеты"
 msgid "Yes"
 msgstr "Да"
 
-#: admin.py:64
+#: admin.py:72
 #, python-format
 msgid "Published %(count)d ticket."
 msgid_plural "Published %(count)d tickets."
@@ -35,11 +35,11 @@ msgstr[0] "Опубликован %(count)d тикет."
 msgstr[1] "Опубликовано %(count)d тикета."
 msgstr[2] "Опубликовано %(count)d тикетов."
 
-#: admin.py:68
+#: admin.py:76
 msgid "Mark selected tickets as published"
 msgstr "Опубликовать отмеченные тикеты"
 
-#: admin.py:73
+#: admin.py:81
 #, python-format
 msgid "Importance `%(value)s` put %(count)d ticket."
 msgid_plural "Importance `%(value)s` put %(count)d tickets."
@@ -47,19 +47,19 @@ msgstr[0] "%(count)d тикету поставлена важность `%(value
 msgstr[1] "%(count)d тикетам поставлена важность `%(value)s`."
 msgstr[2] "%(count)d тикетам поставлена важность `%(value)s`."
 
-#: admin.py:80
+#: admin.py:88
 msgid "Change the importance of the selected tickets on a high"
 msgstr "Поставить высокую важность `high` отмеченным тикетам"
 
-#: admin.py:84
+#: admin.py:92
 msgid "Change the importance of the selected tickets on a normal"
 msgstr "Поставить среднюю важность `normal` отмеченным тикетам"
 
-#: admin.py:88
+#: admin.py:96
 msgid "Change the importance of the selected tickets on a low"
 msgstr "Поставить низкую важность `low` отмеченным тикетам"
 
-#: admin.py:97
+#: admin.py:105
 #, python-format
 msgid "Status `read` put %(count)d ticket."
 msgid_plural "Status `read` put %(count)d tickets."
@@ -67,15 +67,15 @@ msgstr[0] "Статус `прочитан` поставлен %(count)d тике
 msgstr[1] "Статус `прочитан` поставлен %(count)d тикетам."
 msgstr[2] "Статус `прочитан` поставлен %(count)d тикетам."
 
-#: admin.py:101
+#: admin.py:109
 msgid "Status `read` can be supplied only by a new tickets."
 msgstr "Статус `прочтён` может быть поставлен только новым тикетам."
 
-#: admin.py:103
+#: admin.py:111
 msgid "Change the status of the selected tickets as read"
 msgstr "Поставить статус `прочитан` отмеченным тикетам"
 
-#: admin.py:114
+#: admin.py:122
 #, python-format
 msgid "Status `closed` put %(count)d ticket."
 msgid_plural "Status `closed` put %(count)d tickets."
@@ -83,12 +83,12 @@ msgstr[0] "Статус `закрыт` поставлен %(count)d тикету
 msgstr[1] "Статус `закрыт` поставлен %(count)d тикетам."
 msgstr[2] "Статус `закрыт` поставлен %(count)d тикетам."
 
-#: admin.py:118
+#: admin.py:126
 #, python-format
 msgid "Status `closed` can not be put tickets by status %(statuses)s."
 msgstr "Нельзя поставить статус `закрыт` тикетам со статусами %(statuses)s."
 
-#: admin.py:121
+#: admin.py:129
 msgid "Change the status of the selected tickets as closed"
 msgstr "Поставить статус `закрыт` отмеченным тикетам"
 
@@ -178,7 +178,7 @@ msgstr "Тема"
 msgid "Text"
 msgstr "Содержание"
 
-#: models.py:81 models.py:162 models.py:181
+#: models.py:81 models.py:162 models.py:185
 msgid "User"
 msgstr "Пользователь"
 
@@ -190,7 +190,7 @@ msgstr "Имя гостя"
 msgid "Guest email"
 msgstr "Эл.почта гостя"
 
-#: models.py:84 models.py:182
+#: models.py:84 models.py:186
 msgid "Status"
 msgstr "Статус"
 
@@ -248,7 +248,7 @@ msgctxt "vnp_ticket"
 msgid "Tickets"
 msgstr "Тикеты"
 
-#: models.py:161 models.py:179
+#: models.py:161 models.py:183
 msgid "Ticket"
 msgstr "Тикет"
 
@@ -270,21 +270,21 @@ msgctxt "vnp_message"
 msgid "Messages"
 msgstr "Сообщения"
 
-#: models.py:184
+#: models.py:188
 msgid "Time when the status was changed"
 msgstr "Время смены статуса"
 
-#: models.py:187
+#: models.py:191
 msgctxt "vn_status_log"
 msgid "Log status changes"
 msgstr "Лог статуса"
 
-#: models.py:188
+#: models.py:192
 msgctxt "vnp_status_log"
 msgid "Log status changes of tickets"
 msgstr "Лог изменения статусов тикетов"
 
-#: serializers.py:11
+#: serializers.py:13
 msgid "Enter at least three characters."
 msgstr "Введите не менее трёх символов."
 
@@ -321,12 +321,16 @@ msgid "Send"
 msgstr "Отправить"
 
 #: templates/clients_support/body.html:56
-msgid "your tickets"
-msgstr "ваши тикеты"
+msgid "Tickets"
+msgstr "Тикеты"
 
-#: templates/clients_support/body.html:61
-msgid "other tickets"
-msgstr "другие тикеты"
+#: templates/clients_support/body.html:59
+msgid "Your tickets"
+msgstr "Ваши тикеты"
+
+#: templates/clients_support/body.html:62
+msgid "Other tickets"
+msgstr "Другие тикеты"
 
 #: templates/clients_support/body.html:71
 msgid "MESSAGE WAS SENDED"
