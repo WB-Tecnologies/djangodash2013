@@ -47,17 +47,19 @@ $(function(){
                     callback();
             }
 
-            function get_tickets(current_user, term, kind_tickets){
+            function get_tickets(current_user, term, kind_tickets, page){
 
                 term = term || '';
-                var _u = current_user || false;
-                var with_form = _u?add_message_form:'';
+                page = page || 1;
+                var _u = current_user || false,
+                    with_form = _u?add_message_form:'';
 
                 $.getJSON(
                     '/clients_support/tickets/',
                     {
-                        'current_user': _u,
-                        'term': term
+                    'current_user': _u,
+                    'term': term,
+                    'page': page
                     },
                     function(data) {
                         var html = '',
@@ -66,9 +68,23 @@ $(function(){
                             html += render_ticket(tickets[index], with_form);
                         }
                         $(kind_tickets).html(html);
-                        /*$('#dcs-pager').pagination(20,{callback:function(page, component){
-                            console.log(component);
-                        }});*/
+                        if (data.count){
+                            $('#dcs-pager').pagination(
+                                data.count,
+                                {
+                                items_per_page:data.page_size,
+                                current_page: page - 1,
+                                prev_text: data.previous,
+                                next_text: data.next,
+                                callback: function(page, component){
+                                    get_tickets(current_user, term, kind_tickets, page + 1);
+                                    console.log(current_user, term, kind_tickets, page + 1);
+                                }
+                                }
+                            )
+                        }else{
+                            $('#dcs-pager').empty();
+                        }
                         i++;
                         run_callback();
                     }
@@ -98,6 +114,8 @@ $(function(){
     $(".dcs-plate").on("click", function(e){
         e.preventDefault();
         $dcs_overlay.show();
+
+        $dcs_form.find('.dcs-search_input').val(''); // search reset
 
         get_all_tickets();
     });
@@ -204,6 +222,7 @@ $(function(){
                 $dcs_form.find('.tickets-list, .dcs-search, .dcs-add_button').show();
                 $dcs_form.hide();
                 $msg_form.show();
+                $form[0].reset();
             }
         }).fail(function(data){
                 show_field_error($form, data);

@@ -32,3 +32,5 @@ ALLOW_TICKET_FIELDS = getattr(
     ]
 ) + ['id']
 
+TICKETS_PAGINATE_BY = getattr(django_settings, 'SUPPORT_PAGINATE_BY', 8)
+

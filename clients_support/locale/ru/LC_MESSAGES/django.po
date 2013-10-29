@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-28 22:55+0800\n"
+"POT-Creation-Date: 2013-10-29 21:50+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rostislav Grigoriev <hjcnbckfd@gmail.com>\n"
 "Language-Team: \n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Only my tickets"
 msgstr "Только мои тикеты"
 
-#: admin.py:19 templates/clients_support/body.html:84
+#: admin.py:19 templates/clients_support/body.html:92
 msgid "Yes"
 msgstr "Да"
 
@@ -288,67 +288,77 @@ msgstr "Лог изменения статусов тикетов"
 msgid "Enter at least three characters."
 msgstr "Введите не менее трёх символов."
 
-#: templates/clients_support/body.html:6
+#: views.py:43
+msgctxt "pager_prev"
+msgid "Prev"
+msgstr "«"
+
+#: views.py:44
+msgctxt "pager_next"
+msgid "Next"
+msgstr "»"
+
+#: templates/clients_support/body.html:8
 msgid "Django Client Support"
 msgstr ""
 
-#: templates/clients_support/body.html:13
+#: templates/clients_support/body.html:18
 msgid "Add Ticket"
 msgstr "Добавить тикет"
 
-#: templates/clients_support/body.html:15
+#: templates/clients_support/body.html:20
 msgid "Search..."
 msgstr "Поиск..."
 
-#: templates/clients_support/body.html:24
+#: templates/clients_support/body.html:28
 msgid "Name"
 msgstr "Имя"
 
-#: templates/clients_support/body.html:27
+#: templates/clients_support/body.html:31
 msgid "Email"
 msgstr "Эл.почта"
 
-#: templates/clients_support/body.html:43
+#: templates/clients_support/body.html:47
 msgid "Title"
 msgstr "Тема"
 
-#: templates/clients_support/body.html:47
+#: templates/clients_support/body.html:51
 msgid "Problem Description..."
 msgstr "Описание проблемы..."
 
-#: templates/clients_support/body.html:50
+#: templates/clients_support/body.html:54
 msgid "Send"
 msgstr "Отправить"
 
-#: templates/clients_support/body.html:56
+#: templates/clients_support/body.html:61
 msgid "Tickets"
 msgstr "Тикеты"
 
-#: templates/clients_support/body.html:59
+#: templates/clients_support/body.html:64
 msgid "Your tickets"
 msgstr "Ваши тикеты"
 
-#: templates/clients_support/body.html:62
+#: templates/clients_support/body.html:67
 msgid "Other tickets"
 msgstr "Другие тикеты"
 
-#: templates/clients_support/body.html:71
+#: templates/clients_support/body.html:79
 msgid "MESSAGE WAS SENDED"
 msgstr "СООБЩЕНИЕ ОТПРАВЛЕНО"
 
-#: templates/clients_support/body.html:79
+#: templates/clients_support/body.html:87
 msgid "Your Message..."
 msgstr "Ваше сообщение..."
 
-#: templates/clients_support/body.html:83
+#: templates/clients_support/body.html:91
 msgid "Are you satisfied?"
 msgstr "Вы довольны?"
 
-#: templates/clients_support/body.html:85
+#: templates/clients_support/body.html:93
 msgid "No"
 msgstr "Нет"
 
-#: templates/clients_support/body.html:89
+#: templates/clients_support/body.html:97
 msgid "Reply"
 msgstr "Ответить"
 

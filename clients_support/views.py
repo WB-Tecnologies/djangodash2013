@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http.response import Http404
 import operator
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from clients_support.conf import settings
 
 from clients_support.models import Ticket, Message, StatusLog, TicketType, Tag
@@ -8,6 +9,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework import viewsets, permissions
 from django.db.models import Q
 from clients_support.serializers import TicketSerializer, MessageSerializer
+from django.utils.translation import pgettext_lazy
 
 
 class UnsafeSessionAuthentication(SessionAuthentication):
@@ -33,14 +35,25 @@ class TicketPermissions(permissions.BasePermission):
         return is_owner or obj.publish
 
 
+class TicketJSONRenderer(JSONRenderer):
+
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        if renderer_context and isinstance(data, dict):
+            data['page_size'] = renderer_context['view'].paginate_by
+            data['previous'] = pgettext_lazy('pager_prev', 'Prev')
+            data['next'] = pgettext_lazy('pager_next', 'Next')
+        return super(TicketJSONRenderer, self).render(data, accepted_media_type, renderer_context)
+
+
 class TicketViewSet(viewsets.ModelViewSet):
 
     model = Ticket
     permission_classes = (TicketPermissions, )
     authentication_classes = (UnsafeSessionAuthentication, )
     model_serializer_class = TicketSerializer
+    renderer_classes = ( TicketJSONRenderer, BrowsableAPIRenderer)
 
-    paginate_by = 10
+    paginate_by = settings.TICKETS_PAGINATE_BY
     paginate_by_param = 'page_size'
     max_paginate_by = 100
 

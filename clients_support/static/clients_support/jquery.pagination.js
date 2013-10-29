@@ -60,6 +60,7 @@ jQuery.fn.pagination = function(maxentries, opts){
         function drawLinks() {
             panel.empty();
             var list = jQuery("<ul></ul>");
+            list.addClass('pagination');
             panel.append(list);
 
             var interval = getInterval();
