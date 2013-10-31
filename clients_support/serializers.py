@@ -8,10 +8,10 @@ from rest_framework.serializers import ModelSerializer
 from django.utils.translation import ugettext_lazy as _, get_language, gettext, to_locale
 from clients_support.conf import settings
 
-guest_name_validator = RegexValidator(
+three_symbols_validator = RegexValidator(
     re.compile(r'(\S\s*){3,}'),
     _('Enter at least three characters.'),
-    'invalid_guest_name'
+    'invalid_three_symbols'
 )
 
 
@@ -24,8 +24,13 @@ def set_project_locale():
 
 class TicketSerializer(ModelSerializer):
 
-    guest_name = serializers.CharField(min_length=3, max_length=50, validators=[guest_name_validator])
+    guest_name = serializers.CharField(min_length=3, max_length=50, validators=[three_symbols_validator])
     guest_email = serializers.EmailField(max_length=255)
+    text = serializers.CharField(
+        min_length=settings.TICKET_MIN_LENGTH,
+        max_length=settings.TICKET_MAX_LENGTH
+    )
+
 
     def __init__(self, *args, **kwargs):
         super(TicketSerializer, self).__init__(*args, **kwargs)
@@ -33,8 +38,12 @@ class TicketSerializer(ModelSerializer):
         if request.user.is_authenticated():
             for name in ['guest_name', 'guest_email']:
                 self.fields[name].required = False
+            self.fields['subject'].validators = [three_symbols_validator]
 
     def clean_guest_name(self, value):
+        return value.strip()
+
+    def clean_subject(self, value):
         return value.strip()
 
     def to_native(self, obj):
@@ -66,6 +75,8 @@ class TicketSerializer(ModelSerializer):
 
 
 class MessageSerializer(ModelSerializer):
+
+    text = serializers.CharField(min_length=settings.MESSAGE_MIN_LENGTH, max_length=settings.MESSAGE_MAX_LENGTH)
 
     def to_native(self, obj):
         """

@@ -76,7 +76,7 @@ class Ticket(models.Model):
     )
 
     subject = models.CharField(_('Subject'), max_length=255)
-    text = models.TextField(_('Text'))
+    text = models.TextField(_('Content'))
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name=_('User'), related_name='user')
     guest_name = models.CharField(_('Guest name'), max_length=255, blank=True, null=True)
@@ -162,7 +162,7 @@ class Message(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name=_('User'))
     # Sended from guest
     from_guest = models.BooleanField(_('Message from guest'))
-    text = models.TextField(_('Text'))
+    text = models.TextField(_('Content'))
     # If a message is created by the client, then automatically placed in the True, otherwise False.
     was_read = models.BooleanField(_('Message was read'))
     created_at = models.DateTimeField(_('Created time'), auto_now_add=True)

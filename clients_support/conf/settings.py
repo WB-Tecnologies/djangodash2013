@@ -34,3 +34,14 @@ ALLOW_TICKET_FIELDS = getattr(
 
 TICKETS_PAGINATE_BY = getattr(django_settings, 'SUPPORT_PAGINATE_BY', 8)
 
+TICKET_MIN_LENGTH = getattr(django_settings, 'SUPPORT_TICKET_MIN_LENGTH', 50)
+
+# if set None then maximum length for TEXT field types
+TICKET_MAX_LENGTH = getattr(django_settings, 'SUPPORT_TICKET_MAX_LENGTH', None)
+
+MESSAGE_MIN_LENGTH = getattr(django_settings, 'SUPPORT_MESSAGE_MIN_LENGTH', 3)
+
+# if set None then maximum length for TEXT field types
+MESSAGE_MAX_LENGTH = getattr(django_settings, 'SUPPORT_MESSAGE_MAX_LENGTH', None)
+
+

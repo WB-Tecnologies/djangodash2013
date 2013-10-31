@@ -3,10 +3,19 @@ from datetime import datetime
 import autocomplete_light
 from django import forms
 from django.contrib import admin, messages
+from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
+from django.utils.datastructures import SortedDict
 from django.utils.translation import ugettext as _, ungettext
+from clients_support import get_package_permission
 from clients_support.conf import settings
 
 from clients_support.models import Ticket, TicketType, StatusLog, Tag, Message
+
+
+def get_admin_url(obj):
+    content_type = ContentType.objects.get_for_model(obj.__class__)
+    return reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(obj.pk,))
 
 
 class AssignManagerFilter(admin.SimpleListFilter):
@@ -17,11 +26,15 @@ class AssignManagerFilter(admin.SimpleListFilter):
     def lookups(self, request, model_admin):
         return (
             ('yes', _('Yes')),
+            ('no', _('No')),
         )
 
     def queryset(self, request, queryset):
-        if self.value() == 'yes':
+        value = self.value()
+        if value == 'yes':
             return queryset.filter(manager=request.user)
+        elif value == 'no':
+            return queryset.exclude(manager=request.user)
         return queryset
 
 
@@ -43,20 +56,41 @@ class MessageAdminInline(admin.TabularInline):
 
 class TicketAdmin(admin.ModelAdmin):
 
+    PERMISSION_ACTIONS = SortedDict((
+        ('actions_make_published', ['make_published']),
+        ('actions_change_importance', ['change_importance_to_high', 'change_importance_to_normal', 'change_importance_to_low']),
+        ('actions_change_status', ['change_status_to_read', 'change_status_to_closed'])
+    ))
+
     # form = TicketForm
     form = autocomplete_light.modelform_factory(Ticket, form=TicketForm)
 
     inlines = [MessageAdminInline]
 
-    list_display = ('subject', 'user', 'manager', 'status', 'type', 'importance', 'publish', 'updated_at')
+    list_display = ('id', '_subject', 'user', 'manager', 'status', 'type', 'importance', 'publish', 'updated_at')
     list_filter = ('tags', 'type', 'importance', 'status', 'created_at', AssignManagerFilter)
     search_fields = ('subject', 'text')
-    actions = ['make_published', 'change_importance_to_high', 'change_importance_to_normal', 'change_importance_to_low',
-               'change_status_to_read', 'change_status_to_closed']
+
+    actions = sum(PERMISSION_ACTIONS.values(), [])
 
     change_form_template = 'clients_support/admin/change_ticket.html'
     change_list_template = 'clients_support/admin/change_list.html'
     readonly_fields = ('created_at', 'closed_at')
+
+    def get_actions(self, request):
+        actions = super(TicketAdmin, self).get_actions(request)
+
+        for name, part in self.PERMISSION_ACTIONS.items():
+            if not request.user.has_perm(get_package_permission(name)):
+                for action in part:
+                    del actions[action]
+
+        return actions
+
+    def _subject(self, obj):
+        return u'<a href="%s">%s</a>' % (get_admin_url(obj), obj.subject)
+    _subject.allow_tags = True
+    _subject.short_description = _('Subject')
 
     def has_add_permission(self, request):
         return settings.ADMIN_PERMISSION_ADD_TICKET

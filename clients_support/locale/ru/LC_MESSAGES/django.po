@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-29 21:50+0800\n"
+"POT-Creation-Date: 2013-10-31 22:09+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rostislav Grigoriev <hjcnbckfd@gmail.com>\n"
 "Language-Team: \n"
@@ -19,15 +19,23 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: admin.py:13
+#: admin.py:20
 msgid "Only my tickets"
-msgstr "Только мои тикеты"
+msgstr "Назначенные мне тикеты"
 
-#: admin.py:19 templates/clients_support/body.html:92
+#: admin.py:26 templates/clients_support/body.html:92
 msgid "Yes"
 msgstr "Да"
 
-#: admin.py:72
+#: admin.py:27 templates/clients_support/body.html:93
+msgid "No"
+msgstr "Нет"
+
+#: admin.py:75 models.py:78
+msgid "Subject"
+msgstr "Тема"
+
+#: admin.py:88
 #, python-format
 msgid "Published %(count)d ticket."
 msgid_plural "Published %(count)d tickets."
@@ -35,11 +43,11 @@ msgstr[0] "Опубликован %(count)d тикет."
 msgstr[1] "Опубликовано %(count)d тикета."
 msgstr[2] "Опубликовано %(count)d тикетов."
 
-#: admin.py:76
+#: admin.py:92
 msgid "Mark selected tickets as published"
 msgstr "Опубликовать отмеченные тикеты"
 
-#: admin.py:81
+#: admin.py:97
 #, python-format
 msgid "Importance `%(value)s` put %(count)d ticket."
 msgid_plural "Importance `%(value)s` put %(count)d tickets."
@@ -47,19 +55,19 @@ msgstr[0] "%(count)d тикету поставлена важность `%(value
 msgstr[1] "%(count)d тикетам поставлена важность `%(value)s`."
 msgstr[2] "%(count)d тикетам поставлена важность `%(value)s`."
 
-#: admin.py:88
+#: admin.py:104
 msgid "Change the importance of the selected tickets on a high"
 msgstr "Поставить высокую важность `high` отмеченным тикетам"
 
-#: admin.py:92
+#: admin.py:108
 msgid "Change the importance of the selected tickets on a normal"
 msgstr "Поставить среднюю важность `normal` отмеченным тикетам"
 
-#: admin.py:96
+#: admin.py:112
 msgid "Change the importance of the selected tickets on a low"
 msgstr "Поставить низкую важность `low` отмеченным тикетам"
 
-#: admin.py:105
+#: admin.py:121
 #, python-format
 msgid "Status `read` put %(count)d ticket."
 msgid_plural "Status `read` put %(count)d tickets."
@@ -67,15 +75,15 @@ msgstr[0] "Статус `прочитан` поставлен %(count)d тике
 msgstr[1] "Статус `прочитан` поставлен %(count)d тикетам."
 msgstr[2] "Статус `прочитан` поставлен %(count)d тикетам."
 
-#: admin.py:109
+#: admin.py:125
 msgid "Status `read` can be supplied only by a new tickets."
 msgstr "Статус `прочтён` может быть поставлен только новым тикетам."
 
-#: admin.py:111
+#: admin.py:127
 msgid "Change the status of the selected tickets as read"
 msgstr "Поставить статус `прочитан` отмеченным тикетам"
 
-#: admin.py:122
+#: admin.py:138
 #, python-format
 msgid "Status `closed` put %(count)d ticket."
 msgid_plural "Status `closed` put %(count)d tickets."
@@ -83,12 +91,12 @@ msgstr[0] "Статус `закрыт` поставлен %(count)d тикету
 msgstr[1] "Статус `закрыт` поставлен %(count)d тикетам."
 msgstr[2] "Статус `закрыт` поставлен %(count)d тикетам."
 
-#: admin.py:126
+#: admin.py:142
 #, python-format
 msgid "Status `closed` can not be put tickets by status %(statuses)s."
 msgstr "Нельзя поставить статус `закрыт` тикетам со статусами %(statuses)s."
 
-#: admin.py:129
+#: admin.py:145
 msgid "Change the status of the selected tickets as closed"
 msgstr "Поставить статус `закрыт` отмеченным тикетам"
 
@@ -170,12 +178,8 @@ msgstr "Средняя важность"
 msgid "Not important"
 msgstr "Низкая важность"
 
-#: models.py:78
-msgid "Subject"
-msgstr "Тема"
-
 #: models.py:79 models.py:165
-msgid "Text"
+msgid "Content"
 msgstr "Содержание"
 
 #: models.py:81 models.py:162 models.py:185
@@ -298,6 +302,18 @@ msgctxt "pager_next"
 msgid "Next"
 msgstr "»"
 
+#: management/commands/add_groups_clients_support.py:29
+msgid "Can publish tickets"
+msgstr "Может публиковать тикеты"
+
+#: management/commands/add_groups_clients_support.py:30
+msgid "Can change importance tickets"
+msgstr "Может ставить важность тикетам"
+
+#: management/commands/add_groups_clients_support.py:31
+msgid "Can change status tickets"
+msgstr "Может менять статусы тикетов"
+
 #: templates/clients_support/body.html:8
 msgid "Django Client Support"
 msgstr ""
@@ -353,10 +369,6 @@ msgstr "Ваше сообщение..."
 #: templates/clients_support/body.html:91
 msgid "Are you satisfied?"
 msgstr "Вы довольны?"
-
-#: templates/clients_support/body.html:93
-msgid "No"
-msgstr "Нет"
 
 #: templates/clients_support/body.html:97
 msgid "Reply"

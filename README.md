@@ -17,7 +17,7 @@ _Futures_:
 -  Real-Time update of tickets statuses
 -  Tickets filtration by themes and tags
 -  Public tickets list (auto generated FAQ section)
--  Customers satisfection rating
+-  Customers satisfaction rating
 -  Statistics
 -  Django-admin integration
 -  Easy customization
