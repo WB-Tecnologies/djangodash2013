@@ -5,6 +5,7 @@ from django import forms
 from django.contrib import admin, messages
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
+from django.http.response import HttpResponseRedirect
 from django.utils.datastructures import SortedDict
 from django.utils.translation import ugettext as _, ungettext
 from clients_support import get_package_permission
@@ -58,11 +59,12 @@ class TicketAdmin(admin.ModelAdmin):
 
     PERMISSION_ACTIONS = SortedDict((
         ('actions_make_published', ['make_published']),
-        ('actions_change_importance', ['change_importance_to_high', 'change_importance_to_normal', 'change_importance_to_low']),
+        ('actions_change_importance', ['change_importance_to_high',
+                                       'change_importance_to_normal',
+                                       'change_importance_to_low']),
         ('actions_change_status', ['change_status_to_read', 'change_status_to_closed'])
     ))
 
-    # form = TicketForm
     form = autocomplete_light.modelform_factory(Ticket, form=TicketForm)
 
     inlines = [MessageAdminInline]
@@ -75,7 +77,7 @@ class TicketAdmin(admin.ModelAdmin):
 
     change_form_template = 'clients_support/admin/change_ticket.html'
     change_list_template = 'clients_support/admin/change_list.html'
-    readonly_fields = ('created_at', 'closed_at')
+    readonly_fields = ('user_mark', 'user', 'manager', 'created_at', 'closed_at')
 
     def get_actions(self, request):
         actions = super(TicketAdmin, self).get_actions(request)
@@ -95,7 +97,16 @@ class TicketAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return settings.ADMIN_PERMISSION_ADD_TICKET
 
+    def response_change(self, request, obj):
+        if '_ticket_process' in request.POST:
+            msg = _('uyctuk.')
+            self.message_user(request, msg)
+            return HttpResponseRedirect(request.path)
+        return super(TicketAdmin, self).response_change(request, obj)
+
     def save_model(self, request, obj, form, change):
+        if '_ticket_process' in request.POST:
+            obj.manager = request.user
         obj.save()
         if 'status' in form.changed_data:
             StatusLog.add_log(obj, request.user, obj.status)

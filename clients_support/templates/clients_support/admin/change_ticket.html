@@ -1,11 +1,13 @@
-{% extends 'admin/change_form.html' %}{% load i18n %}
+{% extends 'admin/change_form.html' %}{% load i18n admin_urls clients_support_tags %}
 
 {% block extrahead %}
+    {{ block.super }}
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
     {% include 'autocomplete_light/static.html' %}
 {% endblock %}
 
 {% block content %}
+
 {{ block.super }}
 
 {% block ticket_history %}
@@ -23,4 +25,9 @@
         {% endfor %}
     </div>
 {% endblock %}
+{% endblock %}
+
+{% block field_sets %}
+    {% ticket_process_line %}
+    {{ block.super }}
 {% endblock %}

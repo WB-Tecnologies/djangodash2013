@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from optparse import make_option
-from django.contrib.auth.models import Permission, User, Group
+from django.contrib.auth.models import Permission, Group
 from django.contrib.contenttypes.models import ContentType
 from clients_support import get_package_name
 
-from clients_support.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.translation import ugettext_lazy as _, activate, deactivate
 from django.conf import settings as django_settings
@@ -16,12 +15,17 @@ SUPPORT_PERMISSIONS = (
     ('actions_make_published', _('Can publish tickets')),
     ('actions_change_importance', _('Can change importance tickets')),
     ('actions_change_status', _('Can change status tickets')),
+    ('take_ticket_process', _('Can take the ticket for processing')),
 )
 
 
 class Command(BaseCommand):
+    """
+    Command add groups and permissions (including custom) for clients_support
+    """
+
     can_import_settings = True
-    help = 'Sends notification '
+    help = 'Set group and permissions by %s' % get_package_name()
     option_list = BaseCommand.option_list + (
         make_option('--ignore_language_code', '--ilc',
                     action='store_true',
@@ -54,6 +58,7 @@ class Command(BaseCommand):
             if not is_created:
                 permission.name = desc
                 permission.save()
+            m_group.permissions.add(permission)
             sm_group.permissions.add(permission)
             sm_perm_list.append(codename)
 

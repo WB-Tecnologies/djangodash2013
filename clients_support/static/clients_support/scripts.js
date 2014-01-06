@@ -1,3 +1,7 @@
+function relative_time(date_string){
+    return Date.create(date_string).relative(CLIENTS_SUPPORT_LANGUAGE_CODE);
+}
+
 function render_ticket(ticket, msg_form) {
     msg_form = msg_form || '';
     return '<dt class="dcs-tickets_item dcs-tickets_item__active" data-id="' + ticket.id + '">'
@@ -6,7 +10,7 @@ function render_ticket(ticket, msg_form) {
     + '<dd class="dcs-tickets_description">'
     + '<ul class="dcs-tickets_history">'
     + '<li class="dcs-tickets_reply"><p>' + ticket.text 
-    + '</p><p class="dcs-tickets_author dcs-tickets_author__self">' + ticket.created_at 
+    + '</p><p class="dcs-tickets_author dcs-tickets_author__self">' + relative_time(ticket.created_at)
     + '</p></li>' + msg_form + '</ul></dd>';
 
 }
@@ -14,7 +18,7 @@ function render_ticket(ticket, msg_form) {
 function render_message(message) {
     var html = '<li class="dcs-tickets_reply">'
     + '<p>' + message.text + '</p>'
-    + '<p class="dcs-tickets_author dcs-tickets_author__self">' + message.created_at + '</p>'
+    + '<p class="dcs-tickets_author dcs-tickets_author__self">' + relative_time(message.created_at) + '</p>'
     + '</li>';
 
     return html;
@@ -63,11 +67,14 @@ $(function(){
                     },
                     function(data) {
                         var html = '',
-                            tickets = data.results?data.results:data;
-                        for (var index in tickets) {
-                            html += render_ticket(tickets[index], with_form);
+                            $tickets=$(kind_tickets),
+                            $title=$tickets.prev(),
+                            tickets_data = data.results?data.results:data;
+                        for (var index in tickets_data) {
+                            html += render_ticket(tickets_data[index], with_form);
                         }
-                        $(kind_tickets).html(html);
+                        $tickets.html(html);
+                        $title.toggle(html != '');
                         if (data.count){
                             $('#dcs-pager').pagination(
                                 data.count,
@@ -78,7 +85,6 @@ $(function(){
                                 next_text: data.next,
                                 callback: function(page, component){
                                     get_tickets(current_user, term, kind_tickets, page + 1);
-                                    console.log(current_user, term, kind_tickets, page + 1);
                                 }
                                 }
                             )
@@ -125,6 +131,7 @@ $(function(){
         $dcs_form.find('.dcs-addticket').hide();
         $dcs_form.find('.tickets-list, .dcs-search, .dcs-add_button').show();
         $dcs_form.hide();
+        $msg_form.hide();
         $dcs_overlay.hide();
     });
 

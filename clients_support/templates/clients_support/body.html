@@ -1,6 +1,11 @@
 {% load i18n %}
+{% block scripts %}
+<script type="text/javascript">window.CLIENTS_SUPPORT_LANGUAGE_CODE='{{ LANGUAGE_CODE }}';</script>
+<script src="{{ STATIC_URL }}clients_support/sugar.dates.min.js"></script>
 <script src="{{ STATIC_URL }}clients_support/scripts.js"></script>
 <script src="{{ STATIC_URL }}clients_support/jquery.pagination.js"></script>
+{% endblock %}
+
 
 <a href="#" class="dcs-plate rotate_ccw">
     <span class="dcs-plate_counter rotate_cw">3</span>
@@ -79,7 +84,8 @@
 </div>
 
 
-<script type="text/template" id="add-message-form"><li class="dcs-tickets_addreply">
+<script type="text/template" id="add-message-form">
+<li class="dcs-tickets_addreply">
     <form method="post">
     <div class="dcs-form_line">
         <div class="field-error alert-warning hide" data-name="text"></div>
@@ -96,4 +102,5 @@
         <button class="dcs-button">{% trans 'Reply' %}</button>
     </div>
     </form>
-</li></script>
+</li>
+</script>

@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-from django.http.response import Http404
 import operator
-from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
-from clients_support.conf import settings
 
-from clients_support.models import Ticket, Message, StatusLog, TicketType, Tag
+from django.http.response import Http404
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.authentication import SessionAuthentication
 from rest_framework import viewsets, permissions
 from django.db.models import Q
-from clients_support.serializers import TicketSerializer, MessageSerializer
 from django.utils.translation import pgettext_lazy
+
+from clients_support.conf import settings
+from clients_support.models import Ticket, Message, TicketType
+from clients_support.serializers import TicketSerializer, MessageSerializer
 
 
 class UnsafeSessionAuthentication(SessionAuthentication):
@@ -19,7 +20,7 @@ class UnsafeSessionAuthentication(SessionAuthentication):
         user = getattr(http_request, 'user', None)
 
         if not user or not user.is_active:
-           return None
+            return None
 
         return user, None
 
@@ -40,6 +41,8 @@ class TicketJSONRenderer(JSONRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         if renderer_context and isinstance(data, dict):
             data['page_size'] = renderer_context['view'].paginate_by
+
+            # localization pager
             data['previous'] = pgettext_lazy('pager_prev', 'Prev')
             data['next'] = pgettext_lazy('pager_next', 'Next')
         return super(TicketJSONRenderer, self).render(data, accepted_media_type, renderer_context)
@@ -51,7 +54,7 @@ class TicketViewSet(viewsets.ModelViewSet):
     permission_classes = (TicketPermissions, )
     authentication_classes = (UnsafeSessionAuthentication, )
     model_serializer_class = TicketSerializer
-    renderer_classes = ( TicketJSONRenderer, BrowsableAPIRenderer)
+    renderer_classes = (TicketJSONRenderer, BrowsableAPIRenderer)
 
     paginate_by = settings.TICKETS_PAGINATE_BY
     paginate_by_param = 'page_size'
@@ -87,9 +90,9 @@ class TicketViewSet(viewsets.ModelViewSet):
             # generate search queries, example: Q(subject__icontains=term)
             _pfx = '__%scontains' % settings.SEARCH_I
             q_search = [Q((field_name + _pfx, term))
-                              for field_name in settings.SEARCH_FIELDS]
+                        for field_name in settings.SEARCH_FIELDS]
             qs = qs.filter(reduce(operator.or_, q_search))
-        return qs
+        return qs.select_related('manager')
 
     def paginate_queryset(self, queryset, page_size=None):
         current_user = self.request.QUERY_PARAMS.get('current_user', None)

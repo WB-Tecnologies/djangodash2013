@@ -91,9 +91,9 @@ class Ticket(models.Model):
     # Used to create a secret link (for guests)
     secret_code = models.URLField(_('Secret code (for guests)'), blank=True, null=True)
     # Publish a ticket to be seen by other users
-    publish = models.BooleanField(_('Publish ticket'))
+    publish = models.BooleanField(_('Publish ticket'), default=False)
     # Viewed after close
-    viewed = models.BooleanField(_('Was viewed after close'))
+    viewed = models.BooleanField(_('Was viewed after close'), default=False)
     created_at = models.DateTimeField(_('Created time'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Last updated time'), auto_now=True)
     closed_at = models.DateTimeField(_('Closed time'), blank=True, null=True)
@@ -161,10 +161,10 @@ class Message(models.Model):
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'))
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name=_('User'))
     # Sended from guest
-    from_guest = models.BooleanField(_('Message from guest'))
+    from_guest = models.BooleanField(_('Message from guest'), default=False)
     text = models.TextField(_('Content'))
     # If a message is created by the client, then automatically placed in the True, otherwise False.
-    was_read = models.BooleanField(_('Message was read'))
+    was_read = models.BooleanField(_('Message was read'), default=False)
     created_at = models.DateTimeField(_('Created time'), auto_now_add=True)
 
     class Meta(object):
